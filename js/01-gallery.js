@@ -20,33 +20,25 @@ galleryDivEl.innerHTML = createGalleryEl(galleryItems);
 
 galleryDivEl.addEventListener("click", onShowingImage);
 
-let url;
 let instance;
-let lightbox;
 
 function onShowingImage(evt) {
   evt.preventDefault();
-  const img = evt.target.classList.contains("gallery__image");
-  if (!img) {
+  if (evt.target.nodeName !== "IMG") {
     return;
   }
-  url = evt.target.dataset.source;
-  instance = basicLightbox.create(`<img src=${url} width="800" height="600">`);
+  instance = basicLightbox.create(
+    `<img src=${evt.target.dataset.source} width="800" height="600">`
+  );
 
   instance.show();
   window.addEventListener("keydown", escCloseModal);
-  lightbox = document.querySelector(".basicLightbox");
-  lightbox.addEventListener("click", clearEvent);
 }
 
-function escCloseModal(event) {
-  if (event.code === "Escape") {
+function escCloseModal(evt) {
+  console.log(true);
+  if (evt.code === "Escape") {
     instance.close();
     window.removeEventListener("keydown", escCloseModal);
-    lightbox.removeEventListener("click", clearEvent);
   }
-}
-function clearEvent() {
-  window.removeEventListener("keydown", escCloseModal);
-  lightbox.removeEventListener("click", clearEvent);
 }
